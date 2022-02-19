@@ -10,6 +10,10 @@ const ContentSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		watchId: {
+			type: String,
+			required: true,
+		},
 	},
 	{ versionKey: false, timestamps: true },
 );

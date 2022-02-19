@@ -1,4 +1,5 @@
 const { Content } = require('../../models/content.model');
+const { youtubeParser } = require('../../helpers');
 
 const ListController = {
 	getList: async (_, res) => {
@@ -13,7 +14,8 @@ const ListController = {
 
 	addList: async (req, res) => {
 		const { title, videoUrl } = req.body;
-		const content = new Content({ title, videoUrl });
+		const watchId = youtubeParser(videoUrl);
+		const content = new Content({ title, videoUrl, watchId });
 
 		try {
 			await content.save();
