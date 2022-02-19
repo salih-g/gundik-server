@@ -14,7 +14,6 @@ const ListController = {
 
 	addList: async (req, res) => {
 		const { title, videoUrl } = req.body;
-		console.log(title, videoUrl);
 		const watchId = youtubeParser(videoUrl);
 		const content = new Content({ title, videoUrl, watchId });
 

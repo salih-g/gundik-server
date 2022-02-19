@@ -5,11 +5,6 @@ const server = require('./server');
 const { PORT, CLIENT_URL } = require('./config');
 
 const io = socketIO(server, {
-	cors: {
-		origin: CLIENT_URL,
-		methods: ['GET', 'POST'],
-		credentials: true,
-	},
 	allowEIO3: true,
 });
 
@@ -21,6 +16,8 @@ server.on('listening', () =>
 	logger.info(`App started on:http://localhost:${PORT}`),
 );
 
+let cacheWatchId = '';
+
 io.on('connection', (socket) => {
 	socket.on('play', () => {
 		socket.broadcast.emit('start_playing');
@@ -31,9 +28,13 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('video_change', (watchId) => {
+		cacheWatchId = watchId;
 		socket.broadcast.emit('watchId', watchId);
 	});
-	// socket.on('timestamp', (timestamp) => {
-	// 	socket.broadcast.to(socket.curRoom).emit('timestamp', timestamp);
-	// });
+
+	socket.on('get_watchId', () => {
+		console.log(cacheWatchId != ' ' ? 'bos' : 'dolu');
+
+		socket.broadcast.emit('watchId', cacheWatchId);
+	});
 });
