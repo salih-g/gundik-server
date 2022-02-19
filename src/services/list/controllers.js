@@ -4,6 +4,7 @@ const ListController = {
 	getList: async (_, res) => {
 		try {
 			const contents = await Content.find().sort({ createdAt: -1 });
+
 			return res.status(200).json(contents);
 		} catch (err) {
 			return res.status(500).json({ error: err.message || err });
@@ -16,7 +17,6 @@ const ListController = {
 
 		try {
 			await content.save();
-
 			const contents = await Content.find().sort({ createdAt: -1 });
 
 			return res.status(201).json(contents);
@@ -30,6 +30,7 @@ const ListController = {
 		try {
 			await Content.findByIdAndRemove(id);
 			const contents = await Content.find().sort({ createdAt: -1 });
+
 			return res.status(201).json(contents);
 		} catch (err) {
 			return res.status(500).json({ error: err.message || err });
