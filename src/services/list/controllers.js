@@ -15,9 +15,11 @@ const ListController = {
 		const content = new Content({ title, videoUrl });
 
 		try {
-			const savedContent = await content.save();
+			await content.save();
 
-			return res.status(201).json(savedContent);
+			const contents = await Content.find().sort({ createdAt: -1 });
+
+			return res.status(201).json(contents);
 		} catch (err) {
 			return res.status(500).json({ error: err.message || err });
 		}
@@ -27,7 +29,8 @@ const ListController = {
 		const { id } = req.params;
 		try {
 			await Content.findByIdAndRemove(id);
-			return res.status(201).json({ message: `${id} succesfuly deleted` });
+			const contents = await Content.find().sort({ createdAt: -1 });
+			return res.status(201).json(contents);
 		} catch (err) {
 			return res.status(500).json({ error: err.message || err });
 		}
