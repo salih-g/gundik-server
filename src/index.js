@@ -22,17 +22,17 @@ server.on('listening', () =>
 );
 
 io.on('connection', (socket) => {
-	console.log(socket.id);
+	socket.on('play', () => {
+		socket.broadcast.emit('start_playing');
+	});
 
-	// socket.on('pause', () => {
-	// 	socket.broadcast.to(socket.curRoom).emit('pause');
-	// });
-	// socket.on('play', () => {
-	// 	socket.broadcast.to(socket.curRoom).emit('play');
-	// });
-	// socket.on('video id', (videoId) => {
-	// 	socket.broadcast.to(socket.curRoom).emit('video id', videoId);
-	// });
+	socket.on('pause', () => {
+		socket.broadcast.emit('stop_playing');
+	});
+
+	socket.on('video_change', (watchId) => {
+		socket.broadcast.emit('watchId', watchId);
+	});
 	// socket.on('timestamp', (timestamp) => {
 	// 	socket.broadcast.to(socket.curRoom).emit('timestamp', timestamp);
 	// });
