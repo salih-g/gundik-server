@@ -5,6 +5,11 @@ const server = require('./server');
 const { PORT, CLIENT_URL } = require('./config');
 
 const io = socketIO(server, {
+	// cors: {
+	// 	origin: CLIENT_URL,
+	// 	methods: ['GET', 'POST'],
+	// 	credentials: true,
+	// },
 	allowEIO3: true,
 });
 
