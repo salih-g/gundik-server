@@ -33,6 +33,10 @@ io.on('connection', (socket) => {
 
 		socket.broadcast.emit('watchId', cacheWatchId);
 	});
+
+	socket.on('moveTo', (second) => {
+		socket.broadcast.emit('goTo', second);
+	});
 });
 
 module.exports = io;
