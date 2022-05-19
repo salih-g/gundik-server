@@ -16,6 +16,7 @@ let cacheWatchId = '';
 
 io.on('connection', (socket) => {
 	socket.on('play', () => {
+		console.log('playing');
 		socket.broadcast.emit('start_playing');
 	});
 
