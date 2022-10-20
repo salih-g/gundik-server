@@ -16,7 +16,7 @@ app.use(function (req, res, next) {
 });
 
 //Services
-const { list } = require('./services');
+const { list, user } = require('./services');
 
 app.use(volleyball);
 app.use(cors());
@@ -28,5 +28,6 @@ app.disable('etag');
 
 //Public
 app.use('/list', list);
+app.use('/user', user);
 
 module.exports = app;

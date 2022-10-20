@@ -1,5 +1,7 @@
 const { Content } = require('../../models/content.model');
+const User = require('../../models/user.model');
 const { youtubeParser } = require('../../helpers');
+const { verifyToken } = require('../../utils/token');
 
 const ListController = {
 	getList: async (_, res) => {
@@ -13,11 +15,21 @@ const ListController = {
 	},
 
 	addList: async (req, res) => {
-		const { title, videoUrl } = req.body;
+		const { title, videoUrl, token } = req.body;
+		if (!token) return res.status(401).json({ message: 'you must login' });
+
 		const watchId = youtubeParser(videoUrl);
 		const content = new Content({ title, videoUrl, watchId });
 
 		try {
+			const decoded = await verifyToken(token);
+			const findedUser = await User.findById(decoded.id);
+			console.log(decoded.id);
+			console.log(findedUser);
+
+			if (!findedUser)
+				return res.status(401).json({ message: 'you must login' });
+
 			await content.save();
 			const contents = await Content.find().sort({ createdAt: -1 });
 
